@@ -77,7 +77,8 @@ def solver(
         pop = np.array(new_pop)
 
     end_time = time.time()
-    print(f"Zakończono po {i+1} iteracjach, f_opt = {best_fit:.4e}")
+    total_time = end_time-start_time
+    print(f"Zakończono po {i+1} iteracjach, f_opt = {best_fit:.4e}, czas wykonania {total_time:.4f}s")
 
     return SolverResult(
         x_opt=best_ind,
