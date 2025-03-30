@@ -38,6 +38,9 @@ def solver(
     global_best = None
     global_best_fit = float('inf')
 
+    improve_c = 0
+    max_improve_c = 50
+
     for i in range(params.max_iter):
         fitness = np.array([eval_func(ind) for ind in pop])
         best_idx = np.argmin(fitness)
@@ -48,10 +51,18 @@ def solver(
         if best_fit < global_best_fit:
             global_best_fit = best_fit
             global_best = best_ind.copy()
+            improve_c = 0
+        else:
+            improve_c += 1
 
-        new_pop = []
+        if improve_c == max_improve_c:
+            success=True
+            print(f"Brak poprawy przez {max_improve_c} iteracji. Koniec dalszych obliczeń.")
+            break
+
         mut_strength = params.mutation_strength * (1 - i / params.max_iter)
 
+        new_pop = []
 
         # Selekcja + mutacja
         for _ in range(params.pop_size):
@@ -64,10 +75,6 @@ def solver(
         new_pop[0] = global_best.copy()
 
         pop = np.array(new_pop)
-
-        if i > 0 and abs(history[-2] - best_fit) < params.tol:
-            success = True
-            break
 
     end_time = time.time()
     print(f"Zakończono po {i+1} iteracjach, f_opt = {best_fit:.4e}")

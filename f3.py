@@ -22,7 +22,7 @@ params = SolverParameters(
     max_iter=3000,
     mutation_prob=0.8,
     mutation_strength=6.0,
-    tol=1e-6
+    tol=1e-1
 )
 
 # Uruchomienie solvera
