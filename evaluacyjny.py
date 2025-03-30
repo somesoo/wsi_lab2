@@ -1,7 +1,4 @@
 import numpy as np
-import matplotlib
-matplotlib.use('TkAgg')
-import matplotlib.pyplot as plt
 import time
 from dataclasses import dataclass
 from typing import Callable, Sequence, List
@@ -39,22 +36,35 @@ def solver(
     start_time = time.time()
     
     for i in range(params.max_iter):
-        f_val = eval_func(x)
+        fitness = np.array([eval_func(ind) for ind in pop])
+        best_idx = np.argmin(fitness)
+        best_ind = pop[best_idx]
+        best_fit = fitness[best_idx]
+        history.append(best_fit)
 
+        new_pop = []
 
+        # Selekcja + mutacja
+        for _ in range(params.pop_size):
+            parent = pop[np.random.randint(params.pop_size)].copy()
+            if np.random.rand() < params.mutation_prob:
+                mutation = np.random.normal(0, params.mutation_strength, size=dimension)
+                parent += mutation
+            new_pop.append(parent)
 
+        pop = np.array(new_pop)
 
-        history.append(f_val)
+        if i > 0 and abs(history[-2] - best_fit) < params.tol:
+            success = True
+            break
 
-
-    
     end_time = time.time()
-    total_time = end_time - start_time
+    print(f"Zakończono po {i+1} iteracjach, f_opt = {best_fit:.4e}")
         
     return SolverResult(
-        x_opt=x,
-        f_opt=f_opt,
-        iterations=iterations,
+        x_opt=best_ind,
+        f_opt=best_fit,
+        iterations=i+1,
         success=success,
         history=history
     )
