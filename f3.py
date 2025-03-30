@@ -1,12 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('TkAgg')
+
+matplotlib.use("TkAgg")
 from evaluacyjny import SolverParameters, SolverResult, solver
 from cec2017.simple import f3
+
 # Konfiguracja
 dimension = 10
 x0 = np.random.uniform(-100, 100, size=dimension)
+
 
 def eval_func(x):
     x = np.array(x)
@@ -17,11 +20,7 @@ def eval_func(x):
 
 # Parametry algorytmu
 params = SolverParameters(
-    pop_size=500,
-    max_iter=3000,
-    mutation_prob=0.8,
-    mutation_strength=6.0,
-    tol=1e-1
+    pop_size=500, max_iter=3000, mutation_prob=0.8, mutation_strength=6.0, tol=1e-1
 )
 
 # Uruchomienie solvera
