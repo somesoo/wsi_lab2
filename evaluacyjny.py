@@ -35,6 +35,9 @@ def solver(
     success = False
     start_time = time.time()
     
+    global_best = None
+    global_best_fit = float('inf')
+
     for i in range(params.max_iter):
         fitness = np.array([eval_func(ind) for ind in pop])
         best_idx = np.argmin(fitness)
@@ -42,15 +45,23 @@ def solver(
         best_fit = fitness[best_idx]
         history.append(best_fit)
 
+        if best_fit < global_best_fit:
+            global_best_fit = best_fit
+            global_best = best_ind.copy()
+
         new_pop = []
+        mut_strength = params.mutation_strength * (1 - i / params.max_iter)
+
 
         # Selekcja + mutacja
         for _ in range(params.pop_size):
             parent = pop[np.random.randint(params.pop_size)].copy()
             if np.random.rand() < params.mutation_prob:
-                mutation = np.random.normal(0, params.mutation_strength, size=dimension)
+                mutation = np.random.normal(0, mut_strength, size=dimension)
                 parent += mutation
             new_pop.append(parent)
+
+        new_pop[0] = global_best.copy()
 
         pop = np.array(new_pop)
 
