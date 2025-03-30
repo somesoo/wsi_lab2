@@ -39,7 +39,7 @@ def solver(
     global_best_fit = float('inf')
 
     improve_c = 0
-    max_improve_c = 50
+    max_improve_c = 300
 
     for i in range(params.max_iter):
         fitness = np.array([eval_func(ind) for ind in pop])
