@@ -9,18 +9,17 @@ dimension = 10
 repeats = 10
 
 params = SolverParameters(
-    pop_size=500,
-    max_iter=3000,
-    mutation_prob=0.8,
-    mutation_strength=6.0,
-    tol=1e-1
+    pop_size=500, max_iter=3000, mutation_prob=0.8, mutation_strength=6.0, tol=1e-1
 )
+
 
 def wrap_cec_func(cec_func):
     def eval_func(x):
         x = np.array(x)
         return cec_func(x[np.newaxis, :])[0]
+
     return eval_func
+
 
 def run_and_save_to_csv(eval_func, func_name):
     all_histories = []
@@ -32,9 +31,7 @@ def run_and_save_to_csv(eval_func, func_name):
 
     # Transpose (iterations x runs)
     max_len = max(len(h) for h in all_histories)
-    padded = [
-        h + [np.nan] * (max_len - len(h)) for h in all_histories
-    ]
+    padded = [h + [np.nan] * (max_len - len(h)) for h in all_histories]
     padded = list(map(list, zip(*padded)))  # transpose to iteration-wise
 
     # Save to CSV
@@ -46,6 +43,7 @@ def run_and_save_to_csv(eval_func, func_name):
         writer.writerows(padded)
 
     print(f"Saved {func_name} histories to {csv_path}")
+
 
 # Run and save
 f3_eval = wrap_cec_func(f3)
