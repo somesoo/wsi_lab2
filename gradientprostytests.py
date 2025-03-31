@@ -1,6 +1,6 @@
 import autograd.numpy as np
 import matplotlib.pyplot as plt
-from gradient_solver import solver, SolverParameters
+from gradientprosty import solver, SolverParameters
 from typing import List
 
 
@@ -36,13 +36,12 @@ def f19(x):
     return 0.3 * f_ackley(x) + 0.3 * f_rosenbrock(x) + 0.4 * f_weierstrass(x)
 
 
-# === Testowanie ===
 n = 10
 max_iter = 20000
 tol = 1e-6
 
-np.random.seed(10)
-x0 = np.random.uniform(-100, 100, size=n)
+np.random.seed(13)
+x0 = np.random.uniform(0, 5, size=n)
 
 alphas_f3 = [1e-2, 1e-3, 1e-4]
 alphas_f19 = [1e-3, 1e-4, 1e-5]
